@@ -31,12 +31,12 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testAccessibility() {
-        let accessibilityOptions: [KeychainItemAccessibility] = [
-            .afterFirstUnlock,
-            .afterFirstUnlockThisDeviceOnly,
-            .whenPasscodeSetThisDeviceOnly,
-            .whenUnlocked,
-            .whenUnlockedThisDeviceOnly
+        let accessibilityOptions: [CFString] = [
+			kSecAttrAccessibleWhenUnlocked,
+			kSecAttrAccessibleAfterFirstUnlock,
+			kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+			kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+			kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         ]
         
         let key = "testKey"
