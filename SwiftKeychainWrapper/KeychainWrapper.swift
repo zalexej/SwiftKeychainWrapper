@@ -310,7 +310,7 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     }
 	
 	@discardableResult open func set(_ value: String, forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Bool {
-		return set(stringValue: value, forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
+		return setStringValue(value, forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
 	}
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given key, the string will be overwritten with the new value.
@@ -320,7 +320,7 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility to use when setting the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if the save was successful, false otherwise.
-	@objc @discardableResult open func set(stringValue value: String, forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Bool {
+	@objc @discardableResult open func setStringValue(_ value: String, forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Bool {
         if let data = value.data(using: .utf8) {
             return set(data, forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
         } else {

@@ -26,7 +26,7 @@ public extension KeychainWrapper {
         get { return string(forKey: key) }
         set {
             guard let value = newValue else { return }
-			set(stringValue: value, forKey: key.rawValue)
+			setStringValue(value, forKey: key.rawValue)
         }
     }
 
