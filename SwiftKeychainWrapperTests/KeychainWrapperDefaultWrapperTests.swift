@@ -133,7 +133,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     
     func testNSCodingObjectSave() {
         let myTestObject = TestObject()
-        let objectSaved = KeychainWrapper.standard.set(myTestObject, forKey: testKey)
+		let objectSaved = KeychainWrapper.standard.set(value: myTestObject, forKey: testKey)
         
         XCTAssertTrue(objectSaved, "Object that implements NSCoding should save to Keychain")
     }
@@ -144,7 +144,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         myTestObject.objectName = testString
         myTestObject.objectRating = testInt
         
-        KeychainWrapper.standard.set(myTestObject, forKey: testKey)
+		KeychainWrapper.standard.set(value: myTestObject, forKey: testKey)
         
 		let retrievedObject: TestObject? = KeychainWrapper.standard.object(forKey: testKey)
 		if let retrievedObject = retrievedObject {
