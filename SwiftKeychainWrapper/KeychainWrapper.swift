@@ -383,7 +383,7 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility level to use when looking up the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if successful, false otherwise.
-    @discardableResult open func removeObject(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Bool {
+    @objc @discardableResult open func removeObject(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Bool {
         let keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
 
         // Delete
@@ -397,7 +397,7 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     }
 
     /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
-    @discardableResult open func removeAllKeys() -> Bool {
+    @objc @discardableResult open func removeAllKeys() -> Bool {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
         var keychainQueryDictionary: [String:Any] = [SecClass:kSecClassGenericPassword]
         
@@ -422,7 +422,7 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     ///
     /// - Warning: This may remove custom keychain entries you did not add via SwiftKeychainWrapper.
     ///
-    open class func wipeKeychain() {
+	@objc open class func wipeKeychain() {
         deleteKeychainSecClass(kSecClassGenericPassword) // Generic password items
         deleteKeychainSecClass(kSecClassInternetPassword) // Internet password items
         deleteKeychainSecClass(kSecClassCertificate) // Certificate items
