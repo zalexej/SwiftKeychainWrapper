@@ -146,7 +146,8 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         
         KeychainWrapper.standard.set(myTestObject, forKey: testKey)
         
-        if let retrievedObject = KeychainWrapper.standard.object(forKey: testKey) as? TestObject{
+		let retrievedObject: TestObject? = KeychainWrapper.standard.object(forKey: testKey)
+		if let retrievedObject = retrievedObject {
             XCTAssertEqual(retrievedObject.objectName, testString, "NSCoding compliant object retrieved for key should have objectName property equal to what it was stored with")
             XCTAssertEqual(retrievedObject.objectRating, testInt, "NSCoding compliant object retrieved for key should have objectRating property equal to what it was stored with")
         } else {
@@ -155,7 +156,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
-        let retrievedObject = KeychainWrapper.standard.object(forKey: testKey) as? TestObject
+		let retrievedObject: TestObject? = KeychainWrapper.standard.object(forKey: testKey)
         XCTAssertNil(retrievedObject, "Object for Key should not exist")
     }
     
