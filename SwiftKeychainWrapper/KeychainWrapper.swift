@@ -60,6 +60,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     private static let defaultServiceName: String = {
         return Bundle.main.bundleIdentifier ?? "SwiftKeychainWrapper"
     }()
+	
+	@objc public var useEncodedIdentifiers: Bool = true
 
     private convenience override init() {
         self.init(serviceName: KeychainWrapper.defaultServiceName)
@@ -496,13 +498,17 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
         if let accessGroup = self.accessGroup {
             keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
         }
-        
-        // Uniquely identify the account who will be accessing the keychain
-        let encodedIdentifier: Data? = key.data(using: String.Encoding.utf8)
-        
-        keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
-        
-        keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
+
+		if useEncodedIdentifiers {
+			// Uniquely identify the account who will be accessing the keychain
+			let encodedIdentifier: Data? = key.data(using: String.Encoding.utf8)
+			
+			keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
+			
+			keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
+		} else {
+			keychainQueryDictionary[SecAttrAccount] = key
+		}
         
         keychainQueryDictionary[SecAttrSynchronizable] = isSynchronizable ? kCFBooleanTrue : kCFBooleanFalse
         
