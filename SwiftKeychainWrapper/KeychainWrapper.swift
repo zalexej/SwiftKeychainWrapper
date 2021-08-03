@@ -84,8 +84,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item (@enum kSecAttrAccessible Value Constants)
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if a value exists for the key. False otherwise.
-	@objc open func hasValue(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Bool {
-        if let _ = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) {
+	@objc open func hasValue(forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Bool {
+        if let _ = data(forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable) {
             return true
         } else {
             return false
@@ -219,8 +219,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: The String associated with the key if it exists. If no data exists, or the data found cannot be encoded as a string, returns nil.
-	@objc open func string(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> String? {
-        guard let keychainData = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
+	@objc open func string(forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> String? {
+        guard let keychainData = data(forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
@@ -252,8 +252,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: The Data object associated with the key if it exists. If no data exists, returns nil.
-	@objc open func data(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Data? {
-        var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+	@objc open func data(forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Data? {
+		var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
         
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
@@ -275,8 +275,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: The persistent data reference object associated with the key if it exists. If no data exists, returns nil.
-	@objc open func dataRef(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Data? {
-        var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+	@objc open func dataRef(forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Data? {
+        var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
         
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
@@ -383,8 +383,8 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
     /// - parameter withAccessibility: Optional accessibility level to use when looking up the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if successful, false otherwise.
-    @objc @discardableResult open func removeObject(forKey key: String, withAccessibility accessibility: CFString? = nil, isSynchronizable: Bool = false) -> Bool {
-        let keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+    @objc @discardableResult open func removeObject(forKey key: String, withAccessibility accessibility: CFString? = nil, withAccessControlFlags accessControlFlags: CFOptionFlags = 0, isSynchronizable: Bool = false) -> Bool {
+        let keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, withAccessControlFlags: accessControlFlags, isSynchronizable: isSynchronizable)
 
         // Delete
         let status: OSStatus = SecItemDelete(keychainQueryDictionary as CFDictionary)

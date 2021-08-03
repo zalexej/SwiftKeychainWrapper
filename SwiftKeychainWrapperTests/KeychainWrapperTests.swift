@@ -54,4 +54,20 @@ class KeychainWrapperTests: XCTestCase {
             KeychainWrapper.standard.removeObject(forKey: key, withAccessibility: accessibilityOption)
         }
     }
+	
+	func testAccessControlFlags() {
+		
+		let accessControlFlags : CFOptionFlags = SecAccessControlCreateFlags.userPresence.rawValue
+		
+		let key = "testKey"
+		
+		KeychainWrapper.standard.setStringValue("Test345", forKey: key, withAccessControlFlags: accessControlFlags, isSynchronizable: false)
+			
+		let accessControlFlagsForKey = KeychainWrapper.standard.accessControlFlagsOfKey(key)?.rawValue ?? 0
+		
+		XCTAssertEqual(accessControlFlags, accessControlFlagsForKey, "Access control flags does not match. Expected: \(accessControlFlags) Found: \(accessControlFlagsForKey)")
+			
+		KeychainWrapper.standard.removeObject(forKey: key)
+	}
+
 }
